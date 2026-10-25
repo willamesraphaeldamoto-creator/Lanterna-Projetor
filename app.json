@@ -7,11 +7,29 @@
     "userInterfaceStyle": "dark",
     "android": {
       "package": "br.com.lanternaprojetor.app",
-      "permissions": ["CAMERA", "FLASHLIGHT"]
+      "permissions": [
+        "CAMERA",
+        "FLASHLIGHT"
+      ],
+      "adaptiveIcon": {
+        "backgroundColor": "#090B13",
+        "foregroundImage": "assets/adaptive-icon.png"
+      }
     },
     "plugins": [
-      ["expo-camera", {"cameraPermission": "Permita acesso à câmera para controlar o flash."}],
-      ["expo-image-picker", {"photosPermission": "Permita escolher fotos e vídeos para exibir em tela cheia."}]
-    ]
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Permita acesso à câmera para controlar o flash."
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Permita escolher fotos e vídeos para exibir em tela cheia."
+        }
+      ]
+    ],
+    "icon": "assets/icon.png"
   }
 }
