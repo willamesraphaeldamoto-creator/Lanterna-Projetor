@@ -20,19 +20,27 @@ export default function App() {
   useEffect(() => { if (!permission?.granted) setTorch(false); }, [permission]);
 
   async function pick(kind) {
-    const res = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: kind === 'video' ? ['videos'] : kind === 'photo' ? ['images'] : ['images','videos'],
-      allowsEditing: false, quality: 1, videoMaxDuration: 600
-    });
-    if (!res.canceled && res.assets?.[0]) setMedia(res.assets[0]);
+    try {
+      const res = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: kind === 'video' ? ['videos'] : kind === 'photo' ? ['images'] : ['images', 'videos'],
+        allowsEditing: false, quality: 1, videoMaxDuration: 600
+      });
+      if (!res.canceled && res.assets?.[0]) setMedia(res.assets[0]);
+    } catch (error) {
+      Alert.alert('Não foi possível abrir a galeria', 'Verifique as permissões do aparelho e tente novamente.');
+    }
   }
 
   async function toggleTorch() {
-    if (!permission?.granted) {
-      const p = await requestPermission();
-      if (!p.granted) { Alert.alert('Permissão necessária', 'Autorize a câmera para usar o flash.'); return; }
+    try {
+      if (!permission?.granted) {
+        const p = await requestPermission();
+        if (!p.granted) { Alert.alert('Permissão necessária', 'Autorize o acesso à câmera para controlar o flash.'); return; }
+      }
+      setTorch(v => !v);
+    } catch (error) {
+      Alert.alert('Flash indisponível', 'Este aparelho pode não permitir controlar a lanterna pelo aplicativo.');
     }
-    setTorch(v => !v);
   }
 
   if (media) {
@@ -47,7 +55,7 @@ export default function App() {
   }
 
   return <View style={s.container}>
-    <CameraView style={s.hiddenCamera} facing="back" enableTorch={torch} />
+    {permission?.granted ? <CameraView style={s.hiddenCamera} facing="back" enableTorch={torch} /> : null}
     <StatusBar barStyle="light-content" />
     <ScrollView contentContainerStyle={s.content}>
       <View style={s.brand}><View style={s.logo}><Text style={{fontSize:30}}>🔦</Text></View>
