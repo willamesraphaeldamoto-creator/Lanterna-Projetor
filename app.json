@@ -1,0 +1,17 @@
+{
+  "expo": {
+    "name": "Lanterna Projetor",
+    "slug": "lanterna-projetor",
+    "version": "1.0.0",
+    "orientation": "default",
+    "userInterfaceStyle": "dark",
+    "android": {
+      "package": "br.com.lanternaprojetor.app",
+      "permissions": ["CAMERA", "FLASHLIGHT"]
+    },
+    "plugins": [
+      ["expo-camera", {"cameraPermission": "Permita acesso à câmera para controlar o flash."}],
+      ["expo-image-picker", {"photosPermission": "Permita escolher fotos e vídeos para exibir em tela cheia."}]
+    ]
+  }
+}
