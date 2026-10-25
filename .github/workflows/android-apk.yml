@@ -20,6 +20,14 @@ jobs:
           java-version: '17'
       - name: Install dependencies
         run: npm install
+      - name: Generate app icons
+        run: |
+          mkdir -p assets
+          cat > assets/icon.svg <<'SVG'
+          <svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024"><defs><linearGradient id="b" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f0abfc"/><stop offset=".5" stop-color="#7c3aed"/><stop offset="1" stop-color="#38bdf8"/></linearGradient><radialGradient id="g"><stop stop-color="#35206d"/><stop offset="1" stop-color="#08051b"/></radialGradient><linearGradient id="y"><stop stop-color="#fff7b0"/><stop offset="1" stop-color="#facc15" stop-opacity=".1"/></linearGradient></defs><rect x="38" y="38" width="948" height="948" rx="220" fill="url(#g)" stroke="url(#b)" stroke-width="30"/><path d="M490 480 L875 265 L875 760 Z" fill="url(#y)"/><g transform="rotate(-18 390 535)"><rect x="220" y="285" width="310" height="500" rx="70" fill="#100c2a" stroke="#fff" stroke-width="26"/><rect x="260" y="330" width="230" height="410" rx="38" fill="#25154e"/><rect x="340" y="700" width="70" height="13" rx="7" fill="#c026d3"/></g><circle cx="500" cy="500" r="70" fill="#fff7b0" opacity=".28"/><circle cx="500" cy="500" r="38" fill="#fffde8"/></svg>
+          SVG
+          npm install --no-save sharp
+          node -e "const s=require('sharp'); Promise.all([s('assets/icon.svg').resize(1024,1024).png().toFile('assets/icon.png'),s('assets/icon.svg').resize(432,432).png().toFile('assets/adaptive-icon.png')]).catch(e=>{console.error(e);process.exit(1)})"
       - name: Generate Android project
         run: npx expo prebuild --platform android --no-install
       - name: Build debug APK
