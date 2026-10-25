@@ -55,7 +55,7 @@ export default function App() {
   }
 
   return <View style={s.container}>
-    {permission?.granted ? <CameraView style={s.hiddenCamera} facing="back" enableTorch={torch} /> : null}
+    {permission?.granted ? {permission?.granted ? <CameraView style={s.hiddenCamera} facing="back" enableTorch={torch} /> : null} : null}
     <StatusBar barStyle="light-content" />
     <ScrollView contentContainerStyle={s.content}>
       <View style={s.brand}><View style={s.logo}><Text style={{fontSize:30}}>🔦</Text></View>
